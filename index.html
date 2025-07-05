@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Розыгрыш Telegram-подарка | NPPLUS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #cba03b;
+            --primary-dark: #eaad20;
+            --primary-light: #e8c46c;
+            --text-color: #dedede;
+            --secondary-test-color: #1c1c1c;
+            --light-text: #f8f8f8;
+            --bg-color: #0a0a12;
+            --card-bg: #14141f;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(203, 160, 59, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Unbounded', sans-serif;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary-dark);
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .gift-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin: 30px 0;
+            border: 5px solid var(--primary-color);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--light-text);
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(203, 160, 59, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(203, 160, 59, 0.4);
+        }
+
+        .conditions {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .conditions ul {
+            list-style-type: none;
+        }
+
+        .conditions li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .conditions li::before {
+            content: '•';
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -3px;
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin: 30px 0;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: var(--shadow);
+        }
+
+        .social-buttons {
+            margin: 30px 0;
+        }
+
+        .social-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #0088cc;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-button i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .social-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .telegram-button {
+            background: linear-gradient(135deg, #0088cc, #34b7f1);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            opacity: 0;
+            z-index: 999;
+            animation: confetti-fall 5s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Cosmic Header */
+        header {
+            background-color: var(--header-color);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .logo-highlight {
+            color: var(--neon-blue);
+            font-weight: 800;
+        }
+
+        .logo-badge {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            vertical-align: super;
+            line-height: 1;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle,
+        .lang-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background-color: var(--secondary-bg);
+            transition: all 0.3s;
+            background: var(--lang-color);
+            border: 1px solid var(--border-color);
+            background-color: var(--secondary-bg);
+        }
+
+        .theme-toggle:hover,
+        .lang-toggle:hover {
+            background-color: var(--lang-color-hover);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 15px;
+            position: relative;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 12px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::before {
+            width: calc(100% - 24px);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="/logo.png"
+                        style="max-height: 50px; background: var(--accent-gradient); padding: 2px; border-radius: 12%;">
+                </div>
+                <h3 style="margin-bottom: 0;">ОПРОСЫЧ</h3>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>РОЗЫГРЫШ TELEGRAM-ПОДАРКА</h1>
+            <p>Участвуйте в нашем эксклюзивном розыгрыше и получите шанс выиграть ценный подарок!</p>
+
+            <img src="/gift.png" alt="Telegram-подарок" class="gift-image"><br>
+
+            <a href="https://t.me/golosui_oprosich_bot" class="cta-button telega-button">
+                <i class="fab fa-telegram"></i> УЧАСТВОВАТЬ
+            </a>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="conditions" style="margin-top: 0;">
+            <h2>УСЛОВИЯ УЧАСТИЯ</h2>
+            <ul>
+                <li>Розыгрыш проводится среди подписчиков нашего Telegram-канала</li>
+                <li>Для участия необходимо быть подписанным на наш канал и бот</li>
+                <li>Каждый участник может получить только один подарок</li>
+                <li>Розыгрыш проводится с помощью подсчета баллов бота каждого пользователя</li>
+                <li>Победитель будет объявлен в нашем Telegram-канале</li>
+                <li>Для получения подарка победитель должен связаться с нами в течение 2х часов</li>
+                <li>Организатор оставляет за собой право изменить условия акции</li>
+            </ul>
+        </div>
+        <div class="conditions">
+            <h2>КАК ЗАРАБАТЫВАТЬ БАЛЛЫ?</h2>
+            <ul>
+                <li>Приглашать друзей в канал с помощью личной реферальной ссылки. Ее можно найти в боте!</li>
+                <li>Создавая качественные опросы для тгк. После прохождения ИИ модерации и одобрения со стороны
+                    администрации канала Вам будут начисленны баллы</li>
+            </ul>
+        </div>
+        <div class="conditions">
+            <h2>КАК МЫ СЧИТАЕМ БАЛЛЫ?</h2>
+            <ul>
+                <li>ВСЕ баллы считаются по формуле: (Количество рефералов * 20) + (Количество опросов * 5)</li>
+            </ul>
+        </div>
+    </section>
+
+    <script>
+        function createConfetti() {
+            const colors = ['#cba03b', '#a8842f', '#e8c46c', '#f5e3b9'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(confetti);
+            }
+        }
+
+        window.onload = function () {
+            updateCountdown();
+            createConfetti();
+        };
+    </script>
+</body>
+
+</html>
